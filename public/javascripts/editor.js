@@ -24,11 +24,11 @@ $(document).ready(function(){
                 break;
             case "useDate":
                 if (text != "")
-                    return "\n\\Date{"+text+"}"
+                    return "\n\\date{"+text+"}"
                 return ""
                 break;
             case "noUseDate":
-                return "\n\\Date{}"
+                return "\n\\date{}"
                 break;
         }
     }
