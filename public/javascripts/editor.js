@@ -2,16 +2,16 @@ $(document).ready(function(){
     $('#sendCode').click(function(){
         var tree = generateTree('document');
         console.log(tree);
-        /*$.ajax({
+        $.ajax({
             url: "/compile",
             method: 'POST',
             data: {
-                code: $('#code').val()
+                tree: tree
             },
             success: function(data){
                 location.href = data.url;
             }
-        });*/
+        });
     });
 
     function generateTree(id){
