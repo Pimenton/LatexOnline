@@ -18,6 +18,8 @@
   <body>
     <h1><%= title %></h1>
     <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalAddTitle">Add title</button>
+    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modalAddSection">Add section</button>
+<!--
     <p>The code submited will be compiled by the server</p>
     <textarea name="code" id="code">\documentclass{article}
       \begin{document}
@@ -25,33 +27,15 @@
       extra parameters or packages included.
       \end{document}
     </textarea>
-    <input type="button" value="send" id="sendCode">
 
-    <div class="modal fade" id="modalAddTitle" role="dialog">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">Add title</h4>
-          </div>
-          <div class="modal-body">
-            <div class="form-group">
-              <label for="input_titleDoc">Title</label>
-              <input type="text" class="form-control" id="input_titleDoc" placeholder="Title">
-              <label for="input_authors">Authors</label>
-              <input type="text" class="form-control" id="input_authors" placeholder="Rahid, Sheldon, ...">
-              <label class="form-check-label">
-                Date
-                <input class="form-check-input" type="checkbox" value="" id="checkbox_date">
-              </label>
-            </div>
-          </div>
-          <div class="modal-footer">
-            <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
-            <button type="button" class="btn btn-success" id="btnAddTitle">Add</button>
-          </div>
-        </div>
-      </div>
-    </div>
 
+
+-->
+    <br><br>
+    <div id="document" class="latex_element well" data-args="{class: 'article'}"></div>
+    <% include modals/title.ejs %>
+    <% include modals/section.ejs %>
+
+    <button type="button" class="btn btn-info btn-lg" id="sendCode">Create PDF</button>
   </body>
 </html>

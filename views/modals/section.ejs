@@ -1,0 +1,50 @@
+
+<script>
+    $(document).ready(function() {
+
+        var sectionId = 0;
+        $('#btnAddSection').click(function(){
+            var id = sectionId++;
+            $('#modalAddSection').modal('hide');
+            var title = $("#input_sectionTitle").val();
+            var text = $("#input_sectionContent").val();
+
+            var data = {kind: 'section', title: title, text: text};
+
+            $('#document').append(
+                "<div id='"+id+"_section' class='latex_element well'>"+
+                    "<h1>"+title+"</h1>"+
+                    text+
+                    "<br><br><button type='button' class='btn btn-danger delete' data-id='"+ id +"_section'>" +
+                        "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
+                    "</button>"+
+                "</div>"
+            );
+            $('#'+id+'_section').data('args', data);
+            bind();
+        });
+
+    });
+</script>
+
+<div class="modal fade" id="modalAddSection" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Section</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="input_sectionTitle">Title</label>
+                    <input type="text" class="form-control" id="input_sectionTitle" placeholder="Title">
+                    <label for="input_sectionContent">Text</label>
+                    <input type="text" class="form-control" id="input_sectionContent" placeholder="Section content ...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnAddSection">Add</button>
+            </div>
+        </div>
+    </div>
+</div>

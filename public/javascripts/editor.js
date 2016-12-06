@@ -1,6 +1,8 @@
 $(document).ready(function(){
     $('#sendCode').click(function(){
-        $.ajax({
+        var tree = generateTree('document');
+        console.log(tree);
+        /*$.ajax({
             url: "/compile",
             method: 'POST',
             data: {
@@ -9,10 +11,21 @@ $(document).ready(function(){
             success: function(data){
                 location.href = data.url;
             }
-        });
+        });*/
     });
-    
-    function getLatexFormatTitle(mode, text)
+
+    function generateTree(id){
+        var childs = $('#'+id).find('.latex_element');
+        var ret = [];
+        for (var i=0; i<childs.length; i++){
+            var child = $(childs[i]);
+            var info = child.data('args');
+            info.childs = generateTree(child.attr('id'));
+            ret.push(info);
+        }
+        return ret;
+    }
+    /*function getLatexFormatTitle(mode, text)
     {
         switch(mode)
         {
@@ -64,5 +77,13 @@ $(document).ready(function(){
         date = getLatexFormatTitle(modeDate, date);
         var text = $("#code").val().substring(0,position) + title + authors + date + "\n\\maketitle" + $("#code").val().substring(position, $("#code").val().length);
         $("#code").val(text);
-    });
+    });*/
 });
+
+function bind() {
+    $('.delete').unbind();
+    $('.delete').click(function () {
+        var id = $(this).data('id');
+        $('#' + id).remove();
+    });
+}
