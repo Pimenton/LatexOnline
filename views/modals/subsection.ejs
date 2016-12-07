@@ -1,0 +1,54 @@
+<script>
+    $(document).ready(function() {
+
+        var subsectionId = 0;
+        $('#btnAddSubsection').click(function(){
+            var id = subsectionId++;
+            $('#modalAddSubsection').modal('hide');
+            var title = $("#input_subsectionTitle").val();
+            var text = $("#input_subsectionContent").val();
+
+            var data = {kind: 'subsection', title: title, text: text};
+
+            $('#document').append(
+                "<div id='"+id+"_subsectionId' class='latex_element well'>"+
+                    "<h1>"+title+"</h1>"+
+                    text+
+                    "<br><br>"+
+                    "<button type='button' class='btn btn-default btn-ms' data-id='"+ id +"_subsectionId' data-toggle="modal" data-target="#modalAddSubsection" >"+
+                        "<span class='glyphicon glyphicon-plus ' ></span> Add subsection "+
+                    "</button>"+
+                    "<button type='button' class='btn btn-danger delete' data-id='"+ id +"_subsectionId'>" +
+                        "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
+                    "</button>"+
+                "</div>"
+            );
+            $('#'+id+'_subsectionId').data('args', data);
+            bind();
+        });
+
+    });
+</script>
+
+<div class="modal fade" id="modalAddSubsection" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add section</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="input_subsectionTitle">Title</label>
+                    <input type="text" class="form-control" id="input_subsectionTitle" placeholder="Title">
+                    <label for="input_subsectionContent">Text</label>
+                    <input type="text" class="form-control" id="input_subsectionContent" placeholder="Subsection content ...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnAddSubsection">Add</button>
+            </div>
+        </div>
+    </div>
+
+

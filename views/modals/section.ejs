@@ -15,7 +15,11 @@
                 "<div id='"+id+"_section' class='latex_element well'>"+
                     "<h1>"+title+"</h1>"+
                     text+
-                    "<br><br><button type='button' class='btn btn-danger delete' data-id='"+ id +"_section'>" +
+                    "<br><br>"+
+                    "<button type='button' class='btn btn-default btn-ms' data-id='"+ id +"_section' data-toggle="modal" data-target="#modalAddSubsection" >"+
+                        "<span class='glyphicon glyphicon-plus ' ></span> Add subsection "+
+                    "</button>"+
+                    "<button type='button' class='btn btn-danger delete' data-id='"+ id +"_section'>" +
                         "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
                     "</button>"+
                 "</div>"
@@ -31,7 +35,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add abstract</h4>
+                <h4 class="modal-title">Add section</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
