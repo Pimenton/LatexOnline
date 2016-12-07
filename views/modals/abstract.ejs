@@ -1,0 +1,48 @@
+
+<script>
+    $(document).ready(function() {
+
+        var sectionId = 0;
+        $('#btnAddAbstract').click(function(){
+            var id = sectionId++;
+            $('#modalAddAbstract').modal('hide');
+            var text = $("#input_abstractContent").val();
+
+            var data = {kind: 'abstract', text: text};
+            $('#abstract').remove();
+
+            $('#parteFija').append(
+                "<div id='abstract' class='latex_element well'>"+
+                    text+
+                    "<br><br><button type='button' class='btn btn-danger delete' data-id='"+ id +"_section'>" +
+                        "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
+                    "</button>"+
+                "</div>"
+            );
+            $('#abstract').data('args', data);
+            bind();
+        });
+
+    });
+</script>
+
+<div class="modal fade" id="modalAddAbstract" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add Section</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="input_abstractContent">Text</label>
+                    <textarea type="text" class="form-control" id="input_abstractContent" placeholder="Abstract content ..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnAddAbstract">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
