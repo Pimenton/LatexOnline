@@ -3,6 +3,7 @@
 
         var subsectionId = 0;
         $('#btnAddSubsection').click(function(){
+
             var id = subsectionId++;
             $('#modalAddSubsection').modal('hide');
             var title = $("#input_subsectionTitle").val();
@@ -10,19 +11,20 @@
 
             var data = {kind: 'subsection', title: title, text: text};
 
-            $('#document').append(
-                "<div id='"+id+"_subsectionId' class='latex_element well'>"+
+            $('#'+pwd).append(
+                "<div id='"+id+"_subsectionId' class='latex_element well'  draggable='true' ondragstart='drag(event)'>"+
                     "<h1>"+title+"</h1>"+
                     text+
                     "<br><br>"+
-                    "<button type='button' class='btn btn-default btn-ms' data-id='"+ id +"_subsectionId' data-toggle="modal" data-target="#modalAddSubsection" >"+
-                        "<span class='glyphicon glyphicon-plus ' ></span> Add subsection "+
+                    "<button type='button' class='btn btn-default btn-ms addsubsubsection' data-id='"+ id +"_subsectionId' >"+
+                        "<span class='glyphicon glyphicon-plus ' ></span> Add subsubsection "+
                     "</button>"+
                     "<button type='button' class='btn btn-danger delete' data-id='"+ id +"_subsectionId'>" +
                         "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
                     "</button>"+
                 "</div>"
             );
+            pwd = "";
             $('#'+id+'_subsectionId').data('args', data);
             bind();
         });
@@ -34,7 +36,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Add section</h4>
+                <h4 class="modal-title">Add subsection</h4>
             </div>
             <div class="modal-body">
                 <div class="form-group">
@@ -50,5 +52,6 @@
             </div>
         </div>
     </div>
+</div>
 
 

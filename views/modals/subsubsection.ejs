@@ -1,0 +1,50 @@
+<script>
+    $(document).ready(function() {
+
+        var subsubsectionId = 0;
+        $('#btnAddSubsubsection').click(function(){
+            var id = subsubsectionId++;
+            $('#modalAddSubsubsection').modal('hide');
+            var title = $("#input_subsubsectionTitle").val();
+            var text = $("#input_subsubectionContent").val();
+
+            var data = {kind: 'subsubsection', title: title, text: text};
+
+            $('#'+pwd).append(
+                "<div id='"+id+"_subsubsection' class='latex_element well' draggable='true' ondragstart='drag(event)'>"+
+                    "<h1>"+title+"</h1>"+
+                    text+
+                    "<br><br><button type='button' class='btn btn-danger delete' data-id='"+ id +"_subsubsection'>" +
+                        "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
+                    "</button>"+
+                "</div>"
+            );
+            pwd = ""
+            $('#'+id+'_subsubsection').data('args', data);
+            bind();
+        });
+
+    });
+</script>
+
+<div class="modal fade" id="modalAddSubsubsection" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Add subsubsection</h4>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label for="input_subsubsectionTitle">Title</label>
+                    <input type="text" class="form-control" id="input_subsubsectionTitle" placeholder="Title">
+                    <label for="input_subsubectionContent">Text</label>
+                    <input type="text" class="form-control" id="input_subsubectionContent" placeholder="Section content ...">
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-success" id="btnAddSubsubsection">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
