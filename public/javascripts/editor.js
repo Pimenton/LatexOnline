@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('#sendCode').click(function(){
-        var tree = generateTree('document');
+        var tree = generateTree('parteFija').concat(generateTree('parteMovil'));
         console.log(tree);
         $.ajax({
             url: "/compile",
@@ -14,8 +14,8 @@ $(document).ready(function(){
         });
     });
 
-    function generateTree(id){
-        var childs = $('#'+id).find('.latex_element');
+    function generateTree(id, info){
+        var childs = $('#'+id).children('.latex_element');
         var ret = [];
         for (var i=0; i<childs.length; i++){
             var child = $(childs[i]);
@@ -86,11 +86,24 @@ $( function() {
         $( "#input_date" ).datepicker( "option", "dateFormat", $( this ).val() );
     });
 } );
+var pwd;
 function bind() {
     $('.delete').unbind();
     $('.delete').click(function () {
         var id = $(this).data('id');
         $('#' + id).remove();
+    });
+
+    $('.addsubsection').unbind();
+    $('.addsubsection').click(function(){
+        pwd = $(this).data('id');
+        $('#modalAddSubsection').modal('show')
+    });
+
+    $('.addsubsubsection').unbind();
+    $('.addsubsubsection').click(function(){
+        pwd = $(this).data('id');
+        $('#modalAddSubsubsection').modal('show')
     });
 }
 

@@ -84,6 +84,26 @@ functions['section'] = function(element){
   return code;
 };
 
+functions['subsection'] = function(element){
+  var code =
+      "\\subsection{"+element.title+"}\n"+
+      element.text+
+      "\n";
+
+  code += generateCode(element.childs);
+  code += "\n";
+  return code;
+};
+
+functions['subsubsection'] = function(element){
+  var code =
+      "\\subsubsection{"+element.title+"}\n"+
+      element.text+
+      "\n";
+  return code;
+};
+
+
 functions['abstract'] = function(element)
 {
   var code = "\\begin{abstract}\n"
