@@ -15,12 +15,6 @@ router.post('/compile', function(req, res){
 
   var tree = req.body.tree;
 
-
-  var code =
-      "\\documentclass{article}"+
-      "\\begin{document}\n"+
-        generateCode(tree)+
-      "\\end{document}";
   var code = "\\documentclass{article}\n"+
             "\\begin{document}\n"+
               generateCode(tree)+
@@ -93,7 +87,7 @@ functions['section'] = function(element){
 functions['abstract'] = function(element)
 {
   var code = "\\begin{abstract}\n"
-              + element.text + "\n" +
+              + element.text + "\n"
               + "\\end{abstract}\n";      
   return code;
 }
