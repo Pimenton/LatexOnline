@@ -92,8 +92,8 @@ functions['section'] = function(element){
 
 functions['abstract'] = function(element)
 {
-  var code = "\\begin{abstract}"
-              +element.text
-              "\\end{abstract}\n";      
+  var code = "\\begin{abstract}\n"
+              + element.text + "\n" +
+              + "\\end{abstract}\n";      
   return code;
 }
