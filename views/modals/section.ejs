@@ -11,8 +11,8 @@
 
             var data = {kind: 'section', title: title, text: text};
 
-            $('#document').append(
-                "<div id='"+id+"_section' class='latex_element well'>"+
+            $('#parteMovil').append(
+                "<div id='"+id+"_section' class='latex_element well' draggable='true' ondragstart='drag(event)'>"+
                     "<h1>"+title+"</h1>"+
                     text+
                     "<br><br><button type='button' class='btn btn-danger delete' data-id='"+ id +"_section'>" +
