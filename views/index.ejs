@@ -20,9 +20,9 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddTitle">Add title</button>
-    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddSection"><span class=" glyphicon glyphicon-list"></span> Add section</button>
-    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddAbstract">Add abstract</button>
+    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddTitle" onclick="currentId = undefined;">Add title</button>
+    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddSection" onclick="currentId = undefined;"><span class=" glyphicon glyphicon-list"></span> Add section</button>
+    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddAbstract" onclick="currentId = undefined;">Add abstract</button>
 <!--
     <p>The code submited will be compiled by the server</p>
     <textarea name="code" id="code">\documentclass{article}
