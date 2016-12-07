@@ -20,9 +20,9 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddTitle">Add title</button>
-    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddSection"><span class=" glyphicon glyphicon-list"></span> Add section</button>
-    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddAbstract">Add abstract</button>
+    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddTitle" onclick="currentId = undefined;"><span class="glyphicon glyphicon-bookmark"></span> Add title</button>
+    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddSection" onclick="currentId = undefined;"><span class="glyphicon glyphicon-list"></span> Add section</button>
+    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddAbstract" onclick="currentId = undefined;"><span class="glyphicon glyphicon-align-justify"></span> Add abstract</button>
 <!--
     <p>The code submited will be compiled by the server</p>
     <textarea name="code" id="code">\documentclass{article}
@@ -43,6 +43,9 @@
     </div>
     <% include modals/title.ejs %>
     <% include modals/section.ejs %>
+    <% include modals/subsection.ejs %>
+    <% include modals/subsubsection.ejs %>
+
     <% include modals/abstract.ejs %>
 
     <button type="button" class="btn btn-info btn-lg" id="sendCode">Create PDF</button>

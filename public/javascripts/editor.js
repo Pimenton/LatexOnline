@@ -105,6 +105,9 @@ function bind() {
         pwd = $(this).data('id');
         $('#modalAddSubsubsection').modal('show')
     });
+
+    $('.edit').unbind();
+    $('.edit').click(sectionEdit);
 }
 
 //DRAG AND DROP
