@@ -6,12 +6,13 @@
             $('#modalAddTitle').modal('hide');
             var title = $("#input_titleDoc").val();
             var authors = $("#input_authors").val();
-            var date = $("#checkbox_date").prop('checked');
+            var useDate = $("#checkbox_date").prop('checked');
+            var date = $("#input_date").val();
 
-            var data = {kind: 'title', title: title, authors: authors, date: date};
+            var data = {kind: 'title', title: title, authors: authors, useDate: useDate, date: date};
 
             $('#title').remove();
-            $('#document').prepend(
+            $('#parteFija').prepend(
                 "<div id='title' class='title latex_element well'>"+
                     "<h1>"+title+"<h1>"+
                     authors +
@@ -42,6 +43,18 @@
                         Date
                         <input class="form-check-input" type="checkbox" value="" id="checkbox_date">
                     </label>
+                    <p>Date: <input type="text" id="input_date" size="30"></p>
+                    <p>Format options:<br>
+                        <select id="format">
+                            <option value="mm/dd/yy">Default - mm/dd/yy</option>
+                            <option value="yy-mm-dd">ISO 8601 - yy-mm-dd</option>
+                            <option value="d M, y">Short - d M, y</option>
+                            <option value="d MM, y">Medium - d MM, y</option>
+                            <option value="DD, d MM, yy">Full - DD, d MM, yy</option>
+                            <option value="&apos;day&apos; d &apos;of&apos; MM &apos;in the year&apos; yy">With text - 'day' d 'of' MM 'in the year' yy</option>
+                        </select>
+                    </p>
+
                 </div>
             </div>
             <div class="modal-footer">

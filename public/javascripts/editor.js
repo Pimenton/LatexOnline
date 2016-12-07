@@ -79,7 +79,12 @@ $(document).ready(function(){
         $("#code").val(text);
     });*/
 });
-
+    $( function() {
+        $( "#input_date" ).datepicker();
+        $( "#format" ).on( "change", function() {
+            $( "#input_date" ).datepicker( "option", "dateFormat", $( this ).val() );
+        });
+    } );
 function bind() {
     $('.delete').unbind();
     $('.delete').click(function () {

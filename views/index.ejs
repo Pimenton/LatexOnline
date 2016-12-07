@@ -4,7 +4,7 @@
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <!-- Latest compiled and minified CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
     <!-- Optional theme -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
 
@@ -12,13 +12,17 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <title><%= title %></title>
+
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="/javascripts/editor.js"></script>
   </head>
   <body>
     <h1><%= title %></h1>
-    <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modalAddTitle">Add title</button>
-    <button type="button" class="btn btn-success btn-lg" data-toggle="modal" data-target="#modalAddSection">Add section</button>
+    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddTitle">Add title</button>
+    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddSection"><span class=" glyphicon glyphicon-list"></span> Add section</button>
+    <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddAbstract">Add abstract</button>
 <!--
     <p>The code submited will be compiled by the server</p>
     <textarea name="code" id="code">\documentclass{article}
@@ -32,9 +36,13 @@
 
 -->
     <br><br>
-    <div id="document" class="latex_element well" data-args="{class: 'article'}"></div>
+    <div id="document" class="latex_element well" data-args="{class: 'article'}">
+      <div id="parteFija"></div>
+
+    </div>
     <% include modals/title.ejs %>
     <% include modals/section.ejs %>
+    <% include modals/abstract.ejs %>
 
     <button type="button" class="btn btn-info btn-lg" id="sendCode">Create PDF</button>
   </body>

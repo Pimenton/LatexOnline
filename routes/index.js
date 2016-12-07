@@ -21,6 +21,10 @@ router.post('/compile', function(req, res){
       "\\begin{document}\n"+
         generateCode(tree)+
       "\\end{document}";
+  var code = "\\documentclass{article}\n"+
+            "\\begin{document}\n"+
+              generateCode(tree)+
+            "\\end{document}";
     console.log(code);
 
     fs.writeFile(__dirname+'/../public/code_'+id+'.tex', code, function() {
@@ -60,7 +64,16 @@ functions['title'] = function(element){
   if (element.authors != ""){
     code += "\\author{"+element.authors+"}\n";
   }
-
+  if (element.useDate)
+  {
+    if (element.date != "")
+    {
+      code += "\\date{"+element.date+"}\n";
+    }
+  } else
+  {
+    code += "\\date{}\n";
+  }
   code += "\\maketitle\n";
   return code;
   //TODO: implement date
@@ -76,3 +89,11 @@ functions['section'] = function(element){
   code += "\n";
   return code;
 };
+
+functions['abstract'] = function(element)
+{
+  var code = "\\begin{abstract}"
+              +element.text
+              "\\end{abstract}\n";      
+  return code;
+}
