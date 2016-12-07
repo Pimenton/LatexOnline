@@ -1,6 +1,6 @@
 $(document).ready(function(){
     $('#sendCode').click(function(){
-        var tree = generateTree('document');
+        var tree = generateTree('parteFija').concat(generateTree('parteMovil'));
         console.log(tree);
         $.ajax({
             url: "/compile",
@@ -92,6 +92,9 @@ function bind() {
         var id = $(this).data('id');
         $('#' + id).remove();
     });
+
+    $('.edit').unbind();
+    $('.edit').click(sectionEdit);
 }
 
 //DRAG AND DROP
