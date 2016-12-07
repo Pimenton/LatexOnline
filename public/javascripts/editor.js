@@ -25,6 +25,7 @@ $(document).ready(function(){
         }
         return ret;
     }
+
     /*function getLatexFormatTitle(mode, text)
     {
         switch(mode)
@@ -79,16 +80,32 @@ $(document).ready(function(){
         $("#code").val(text);
     });*/
 });
-    $( function() {
-        $( "#input_date" ).datepicker();
-        $( "#format" ).on( "change", function() {
-            $( "#input_date" ).datepicker( "option", "dateFormat", $( this ).val() );
-        });
-    } );
+$( function() {
+    $( "#input_date" ).datepicker();
+    $( "#format" ).on( "change", function() {
+        $( "#input_date" ).datepicker( "option", "dateFormat", $( this ).val() );
+    });
+} );
 function bind() {
     $('.delete').unbind();
     $('.delete').click(function () {
         var id = $(this).data('id');
         $('#' + id).remove();
     });
+}
+
+//DRAG AND DROP
+
+function allowDrop(ev) {
+    ev.preventDefault();
+}
+
+function drag(ev) {
+    ev.dataTransfer.setData("text", ev.target.id);
+}
+
+function drop(ev) {
+    ev.preventDefault();
+    var data = ev.dataTransfer.getData("text");
+    $('#'+data).insertAfter($('#'+ev.target.id));
 }
