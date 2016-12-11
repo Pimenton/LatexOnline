@@ -26,67 +26,99 @@ $(document).ready(function(){
         return ret;
     }
 
-    /*function getLatexFormatTitle(mode, text)
-    {
-        switch(mode)
-        {
-            case "title":
-                return "\n\\title{"+text+"}"
-                break;
-            case "authors":
-                return "\n\\author{"+text+"}"
-                break;
-            case "useDate":
-                if (text != "")
-                    return "\n\\date{"+text+"}"
-                return ""
-                break;
-            case "noUseDate":
-                return "\n\\date{}"
-                break;
-        }
-    }
-
-    function deleteTitleOfText()
-    {
-        if ($("#code").val().indexOf("maketitle") != -1)
-        {
-            var firstPosition = $("#code").val().indexOf("begin{document}") + "begin{document}".length;
-            var lastPosition = $("#code").val().indexOf("maketitle") + "maketitle".length;
-            var text = $("#code").val().substring(0,firstPosition) + $("#code").val().substring(lastPosition,$("#code").val().length);
-            $("#code").val(text);
-        }
-    }
-
-    $('#btnAddTitle').click(function()
-    {
-        $('#modalAddTitle').modal('hide');
-        deleteTitleOfText();
-        var position = ($("#code").val().indexOf("begin{document}")) + parseInt("begin{document}".length);
-        var title = getLatexFormatTitle("title", $("#input_titleDoc").val());
-        var authors = getLatexFormatTitle("authors", $("#input_authors").val());
-        var date = ""
-        var modeDate;
-        if($("#checkbox_date").prop('checked'))
-        {
-            modeDate = "useDate"
-        }
-        else 
-        {
-            modeDate = "noUseDate"
-        }
-        date = getLatexFormatTitle(modeDate, date);
-        var text = $("#code").val().substring(0,position) + title + authors + date + "\n\\maketitle" + $("#code").val().substring(position, $("#code").val().length);
-        $("#code").val(text);
-    });*/
-});
-$( function() {
-    $( "#input_date" ).datepicker();
-    $( "#format" ).on( "change", function() {
-        $( "#input_date" ).datepicker( "option", "dateFormat", $( this ).val() );
+    $( function() {
+        $( "#input_date" ).datepicker({ dateFormat: 'MM d, yy'}).datepicker("setDate", new Date());
+        $( "#format" ).on( "change", function() {
+            $( "#input_date" ).datepicker( "option", "dateFormat", $( this ).val() );
+        });
     });
-} );
+
+    var subsectionId = 0;
+    $('#btnAddSubsection').click(function(){
+        var newId = subsectionId++;
+        newId += '_subsection'
+
+        if(subSectionEditing != "")
+        {
+            newId = subSectionEditing;
+        }
+
+        $('#modalAddsubsection').modal('hide');
+        var title = $("#input_subsectionTitle").val();
+        var text = $("#input_subsectionContent").val();
+
+        var data = {kind: 'subsection', title: title, text: text};
+
+        var specialPart = "<h1>"+title+"</h1>"+text
+
+        var html = "<div id='"+newId+"' class='latex_element well'  draggable='true' ondragstart='drag(event)'>"+
+                "<div class='cont_label_well'><span class='label_well'>Subsection</span></div>"+
+                "<div id='sectionHTML_"+newId+"'>"+
+                specialPart +
+                "</div><br><br>"+
+                "<div class='btn-group'>" +
+                    "<button type='button' class='btn btn-default editSubsection' data-id='"+ newId +"' data-toggle='modal' data-target='#modalAddsubsection' title='Edit'>" +
+                        "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>" +
+                    "</button>"+
+                    "<button type='button' class='btn btn-default btn-ms addsubsubsection' data-id='"+ newId +"' title='Add subsubsection'>"+
+                        "<span class='glyphicon glyphicon-plus ' ></span> Add subsubsection "+
+                    "</button>"+
+                    "<button type='button' class='btn btn-danger delete' data-id='"+ newId +"'>" +
+                        "<span class='glyphicon glyphicon-trash' aria-hidden='true' title='Delete'></span>" +
+                    "</button>"+
+                "</div>"+
+            "</div>"
+        if(subSectionEditing != "")
+        {
+            $('#sectionHTML_'+newId).html(specialPart);
+        }
+        else $('#'+pwd).append(html);
+        subSectionEditing = "";
+        pwd = "";
+        $('#'+newId).data('args', data);
+        bind();
+    });
+
+    var subsubsectionId = 0;
+    $('#btnAddSubsubsection').click(function(){
+        var id = subsubsectionId++;
+        id += '_subsubsection'
+        if (subSectionEditing != "") id = subSectionEditing
+
+        $('#modalAddSubsubsection').modal('hide');
+        var title = $("#input_subsubsectionTitle").val();
+        var text = $("#input_subsubectionContent").val();
+
+        var data = {kind: 'subsubsection', title: title, text: text};
+
+        var specialPart = "<h1>"+title+"</h1>"+text;
+        var html = 
+            "<div id='"+id+"' class='latex_element well' draggable='true' ondragstart='drag(event)'>"+
+            "<div class='cont_label_well'><span class='label_well'>Subsubsection</span></div>"+
+                "<div id='sectionHTML_"+id+"'>"+
+                specialPart+
+                "</div>"+
+                "<br><br><div class='btn-group'>"+
+                "<button type='button' class='btn btn-default editSubsubsection' data-toggle='modal' data-id='"+ id +"' title='Edit'>" +
+                    "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>" +
+                "</button>"+
+                "<button type='button' class='btn btn-danger delete' data-id='"+ id +"' title='Delete'>" +
+                    "<span class='glyphicon glyphicon-trash' aria-hidden='true' ></span>" +
+                "</button>"+
+            "</div></div>";
+        if (subSectionEditing != "") $('#sectionHTML_'+id).html(specialPart);
+        else $('#'+pwd).append(html)
+        
+        subSectionEditing = ""
+        pwd = ""
+        $('#'+id+'').data('args', data);
+        bind();
+    });
+
+});
+
 var pwd;
+var subSectionEditing = "";
 function bind() {
     $('.delete').unbind();
     $('.delete').click(function () {
@@ -97,7 +129,7 @@ function bind() {
     $('.addsubsection').unbind();
     $('.addsubsection').click(function(){
         pwd = $(this).data('id');
-        $('#modalAddSubsection').modal('show')
+        $('#modalAddsubsection').modal('show')
     });
 
     $('.addsubsubsection').unbind();
@@ -106,8 +138,35 @@ function bind() {
         $('#modalAddSubsubsection').modal('show')
     });
 
-    $('.edit').unbind();
-    $('.edit').click(sectionEdit);
+    $('.editSection').unbind();
+    $('.editSection').click(sectionEdit);
+
+    $('.editSubsection').unbind();
+    $('.editSubsection').click(function()
+    {
+        //if u use .modal('show'), it fails
+        $('#modalAddsubsection').show();
+        var id = $(this).data('id');
+        var element = $('#'+ id);
+        var args = element.data('args');
+
+        $("#input_subsectionTitle").val(args.title);
+        $("#input_subsectionContent").val(args.text);
+        subSectionEditing = id
+    });
+
+    $('.editSubsubsection').unbind();
+    $('.editSubsubsection').click(function()
+    {
+        $('#modalAddSubsubsection').modal('show');
+        var id = $(this).data('id');
+        var element = $('#'+ id);
+        var args = element.data('args');
+
+        $("#input_subsubsectionTitle").val(args.title);
+        $("#input_subsubsectionContent").val(args.text);
+        subSectionEditing = id
+    });
 }
 
 //DRAG AND DROP
@@ -123,5 +182,15 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    $('#'+data).insertAfter($('#'+ev.target.id));
+    if (data.indexOf('subsub') > -1)
+    {
+        if (ev.target.id.indexOf('section') > -1 && ev.target.id.indexOf('subsub') == -1 && ev.target.id.indexOf('sub') > -1)
+            $('#'+data).appendTo($('#'+ev.target.id));
+    }
+    else if (data.indexOf('sub')>-1)
+    {
+        if (ev.target.id.indexOf('section')>-1 && ev.target.id.indexOf('sub') == -1)
+            $('#'+data).appendTo($('#'+ev.target.id));
+    }
+    else $('#'+data).insertAfter($('#'+ev.target.id));
 }

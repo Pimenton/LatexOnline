@@ -1,38 +1,4 @@
-<script>
-    $(document).ready(function() {
-
-        var subsectionId = 0;
-        $('#btnAddSubsection').click(function(){
-
-            var id = subsectionId++;
-            $('#modalAddSubsection').modal('hide');
-            var title = $("#input_subsectionTitle").val();
-            var text = $("#input_subsectionContent").val();
-
-            var data = {kind: 'subsection', title: title, text: text};
-
-            $('#'+pwd).append(
-                "<div id='"+id+"_subsectionId' class='latex_element well'  draggable='true' ondragstart='drag(event)'>"+
-                    "<h1>"+title+"</h1>"+
-                    text+
-                    "<br><br>"+
-                    "<button type='button' class='btn btn-default btn-ms addsubsubsection' data-id='"+ id +"_subsectionId' >"+
-                        "<span class='glyphicon glyphicon-plus ' ></span> Add subsubsection "+
-                    "</button>"+
-                    "<button type='button' class='btn btn-danger delete' data-id='"+ id +"_subsectionId'>" +
-                        "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-                    "</button>"+
-                "</div>"
-            );
-            pwd = "";
-            $('#'+id+'_subsectionId').data('args', data);
-            bind();
-        });
-
-    });
-</script>
-
-<div class="modal fade" id="modalAddSubsection" role="dialog">
+<div class="modal fade" id="modalAddsubsection" role="dialog">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">

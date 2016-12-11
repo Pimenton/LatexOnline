@@ -29,26 +29,31 @@
 
             var data = {kind: 'section', title: title, text: text};
 
-            var element = $("<div id='"+newId+"' class='latex_element well' draggable='true' ondragstart='drag(event)'>"+
-                "<h1>"+title+"</h1>"+
-                text+
-                "<br><br>" +
-                "<button type='button' class='btn btn-success edit' data-id='"+ newId +"'>" +
-                    "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>" +
-                "</button>"+
-                "<button type='button' class='btn btn-default btn-ms addsubsection' data-id='"+ newId +"' >" +
-                        "<span class='glyphicon glyphicon-plus' ></span> Add subsection" +
-                    "</button>"+
-                "<button type='button' class='btn btn-danger delete' data-id='"+ newId +"'>" +
-                    "<span class='glyphicon glyphicon-remove' aria-hidden='true'></span>" +
-                "</button>"+
+            var specialPart = "<h2>"+title+"</h2>"+text
+            var element = $(
+                "<div id='"+newId+"' class='latex_element well' draggable='true' ondragstart='drag(event)'>"+
+                "<div class='cont_label_well'><span class='label_well'>Section</span></div>"+
+                    "<div id='sectionHTML_"+newId+"'>"+
+                    specialPart+
+                    "</div><br /><br />"+
+                    "<div class='btn-group'>" +
+                        "<button type='button' class='btn btn-default editSection' data-id='"+ newId +"'>" +
+                            "<span class='glyphicon glyphicon-pencil' aria-hidden='true'></span>" +
+                        "</button>"+
+                        "<button type='button' class='btn btn-default btn-ms addsubsection' data-id='"+ newId +"' >" +
+                                "<span class='glyphicon glyphicon-plus' ></span> Add subsection" +
+                            "</button>"+
+                        "<button type='button' class='btn btn-danger delete' data-id='"+ newId +"' title='Delete'>" +
+                            "<span class='glyphicon glyphicon-trash' aria-hidden='true'></span>" +
+                        "</button>"+
+                    "</div>" +
                 "</div>");
 
             if (newSection){
                 $('#parteMovil').append(element);
             }
             else {
-                $('#'+newId).replaceWith(element);
+                $("#sectionHTML_"+newId).html(specialPart);
             }
             $('#'+newId).data('args', data);
             bind();
@@ -67,7 +72,7 @@
                     <label for="input_sectionTitle">Title</label>
                     <input type="text" class="form-control" id="input_sectionTitle" placeholder="Title">
                     <label for="input_sectionContent">Text</label>
-                    <input type="text" class="form-control" id="input_sectionContent" placeholder="Section content ...">
+                    <textarea class="form-control" id="input_sectionContent" placeholder="Section content..."></textarea>
                 </div>
             </div>
             <div class="modal-footer">
