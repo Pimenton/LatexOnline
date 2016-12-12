@@ -42,7 +42,7 @@
 
       <div id="document" class="latex_element well col-md-7" data-args="{class: 'article'}">
         <div id="parteFija"></div>
-        <div id="parteMovil" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+        <div id="parteMovil" ondrop="drop(event)" ondragover="allowDrop(event)" ondragleave="disallowDrop(event)"></div>
       </div>
       <div action='/#' class="col-md-4 well" id="gallery">
         <div id="view">
@@ -61,7 +61,7 @@
     <% include modals/subsubsection.ejs %>
 
     <% include modals/abstract.ejs %>
-
+    <br>
     <button type="button" class="btn btn-info btn-lg" id="sendCode">Create PDF</button>
   </body>
 </html>

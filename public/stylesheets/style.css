@@ -54,5 +54,7 @@ a {
 }
 
 #gallery {
-  float:right;
+    right: 35px;
+    position: fixed;
+
 }

@@ -76,7 +76,7 @@ $(document).ready(function(){
                     "<button type='button' class='btn btn-danger delete' data-id='"+ newId +"'>" +
                         "<span class='glyphicon glyphicon-trash' aria-hidden='true' title='Delete'></span>" +
                     "</button>"+
-                "</div>"+
+                "</div><br><br>"+
             "</div>"
         if(subSectionEditing != "")
         {
@@ -115,7 +115,7 @@ $(document).ready(function(){
                 "<button type='button' class='btn btn-danger delete' data-id='"+ id +"' title='Delete'>" +
                     "<span class='glyphicon glyphicon-trash' aria-hidden='true' ></span>" +
                 "</button>"+
-            "</div></div>";
+            "</div><br><br></div>";
         if (subSectionEditing != "") $('#sectionHTML_'+id).html(specialPart);
         else $('#'+pwd).append(html)
         
@@ -197,6 +197,14 @@ function bind() {
 
 function allowDrop(ev) {
     ev.preventDefault();
+    $('#'+ev.target.id).css('border-color', 'black');
+
+}
+
+function disallowDrop(ev) {
+    ev.preventDefault();
+    $('#'+ev.target.id).css('border-color', 'rgb(220, 220, 220)');
+
 }
 
 function drag(ev) {
@@ -228,7 +236,6 @@ function drop(ev) {
             $('#'+data).insertAfter($('#'+ev.target.id));
     }
     else if(data.indexOf('image')>-1){
-        $('#'+data).appendTo();
         $('#'+ev.target.id).append(document.getElementById(data).cloneNode(true));
 
         $('#document .img_content').unbind();
@@ -236,4 +243,6 @@ function drop(ev) {
             $(this).remove();
         });
     }
+
+    $('#'+ev.target.id).css('border-color', 'rgb(220, 220, 220)');
 }

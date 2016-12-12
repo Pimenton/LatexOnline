@@ -14,7 +14,6 @@ router.post('/compile', function(req, res){
     var id = ids++;
 
     var tree = req.body.tree;
-    console.log(tree);
     var code = "\\documentclass{article}\n"+
         "\\usepackage{graphicx}\n" +
         "\\graphicspath{ {./public/images/} }\n" +
@@ -125,7 +124,7 @@ functions['section'] = function(element){
     var images = element.images;
     if (images != undefined && images && images.length) {
         for (var i = 0; i < images.length; i++) {
-            code += "\\includegraphics{" + images[i] + "}\n";
+            code += "\\includegraphics[width=5cm, height=5cm]{" + images[i] + "}\n";
         }
     }
 
@@ -143,7 +142,7 @@ functions['subsection'] = function(element){
     var images = element.images;
     if (images != undefined && images && images.length) {
         for (var i = 0; i < images.length; i++) {
-            code += "\\includegraphics{" + images[i] + "}\n";
+            code += "\\includegraphics[width=5cm, height=5cm]{" + images[i] + "}\n";
         }
     }
 
@@ -161,7 +160,7 @@ functions['subsubsection'] = function(element){
     var images = element.images;
     if (images != undefined && images && images.length) {
         for (var i = 0; i < images.length; i++) {
-            code += "\\includegraphics{" + images[i] + "}\n";
+            code += "\\includegraphics[width=5cm, height=5cm]{" + images[i] + "}\n";
         }
     }
 
