@@ -11,30 +11,28 @@ router.get('/', function(req, res) {
 var ids = 0;
 
 router.post('/compile', function(req, res){
-  var id = ids++;
+    var id = ids++;
 
-  var tree = req.body.tree;
+    var tree = req.body.tree;
     console.log(tree);
-  var code = "\\documentclass{article}\n"+
-            "\\usepackage{graphicx}\n" +
-            "\\graphicspath{ {"+__dirname+'/../public/images'+"} }\n" +
-            "\\begin{document}\n"+
-              generateCode(tree)+
-            "\\end{document}";
+    var code = "\\documentclass{article}\n"+
+        "\\usepackage{graphicx}\n" +
+        "\\graphicspath{ {./public/images/} }\n" +
+        "\\begin{document}\n"+
+        generateCode(tree)+
+        "\\end{document}";
     console.log(code);
 
     fs.writeFile(__dirname+'/../public/code_'+id+'.tex', code, function() {
-
-    //Compile two times two avoid latex errors
-        console.log('latex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex');
-    exec('pdflatex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex', function (err) {
-        if (err) throw err;
-      exec('pdflatex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex', function (err) {
-        if (err) throw err;
-        res.send({url: '/code_' + id + '.pdf'});
-      });
+        //Compile two times two avoid latex errors
+        console.log('pdflatex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex');
+        var options = {timeout: 10000};
+        exec('pdflatex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex', options, function (err, stdout, stderr) {
+            exec('pdflatex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex', options, function (err) {
+                res.send({url: '/code_' + id + '.pdf'});
+            });
+        });
     });
-  });
 });
 
 
