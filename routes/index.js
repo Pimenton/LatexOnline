@@ -14,8 +14,10 @@ router.post('/compile', function(req, res){
   var id = ids++;
 
   var tree = req.body.tree;
-
+    console.log(tree);
   var code = "\\documentclass{article}\n"+
+            "\\usepackage{graphicx}\n" +
+            "\\graphicspath{ {"+__dirname+'/../public/images'+"} }\n" +
             "\\begin{document}\n"+
               generateCode(tree)+
             "\\end{document}";
@@ -24,26 +26,38 @@ router.post('/compile', function(req, res){
     fs.writeFile(__dirname+'/../public/code_'+id+'.tex', code, function() {
 
     //Compile two times two avoid latex errors
-    exec('latex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex', function () {
-      exec('latex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex', function () {
-        res.send({url: '/code_' + id + '.dvi'});
+        console.log('latex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex');
+    exec('pdflatex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex', function (err) {
+        if (err) throw err;
+      exec('pdflatex -output-directory=' + __dirname + '/../public/ ' + __dirname + '/../public/code_' + id + '.tex', function (err) {
+        if (err) throw err;
+        res.send({url: '/code_' + id + '.pdf'});
       });
     });
   });
 });
 
-var image = 0;
 
 router.post('/upload', function(req, res) {
     if (!req.files) {
         res.send('No files were uploaded.');
         return;
     }
-    console.log(__dirname)
+
     var resource = req.files.resource;
-    var dir = __dirname+'/../public/images';//dirs[resource.name.split('.').reverse()[0]] || 'img';
-    fs.writeFile( dir + '/image'+image++, resource.data);
-    res.render('upload');
+    var path = __dirname+'/../public/images';
+    fs.readdir(path, function(err, dir){
+        var image = 0;
+        for (var i=0; i<dir.length; i++) {
+            if (dir[i].indexOf('image') == 0) {
+                image++;
+            }
+        }
+
+        fs.writeFile( path + '/image'+image+'.png', resource.data, function(){
+            res.render('upload');
+        });
+    });
 });
 
 router.get('/upload', function(req, res) {
@@ -73,6 +87,7 @@ function generateCode(tree){
     if (typeof functions[element.kind] == 'function') {
       code += functions[element.kind](element);
     }
+
   }
   return code;
 }
@@ -104,33 +119,55 @@ functions['title'] = function(element){
 };
 
 functions['section'] = function(element){
-  var code =
-      "\\section{"+element.title+"}\n"+
-      element.text+
-      "\n";
+    var code =
+        "\\section{"+element.title+"}\n"+
+        element.text+
+        "\n";
 
-  code += generateCode(element.childs);
-  code += "\n";
-  return code;
+    var images = element.images;
+    if (images != undefined && images && images.length) {
+        for (var i = 0; i < images.length; i++) {
+            code += "\\includegraphics{" + images[i] + "}\n";
+        }
+    }
+
+    code += generateCode(element.childs);
+    code += "\n";
+    return code;
 };
 
 functions['subsection'] = function(element){
-  var code =
-      "\\subsection{"+element.title+"}\n"+
-      element.text+
-      "\n";
+    var code =
+        "\\subsection{"+element.title+"}\n"+
+        element.text+
+        "\n";
 
-  code += generateCode(element.childs);
-  code += "\n";
-  return code;
+    var images = element.images;
+    if (images != undefined && images && images.length) {
+        for (var i = 0; i < images.length; i++) {
+            code += "\\includegraphics{" + images[i] + "}\n";
+        }
+    }
+
+    code += generateCode(element.childs);
+    code += "\n";
+    return code;
 };
 
 functions['subsubsection'] = function(element){
-  var code =
-      "\\subsubsection{"+element.title+"}\n"+
-      element.text+
-      "\n";
-  return code;
+    var code =
+        "\\subsubsection{"+element.title+"}\n"+
+        element.text+
+        "\n";
+
+    var images = element.images;
+    if (images != undefined && images && images.length) {
+        for (var i = 0; i < images.length; i++) {
+            code += "\\includegraphics{" + images[i] + "}\n";
+        }
+    }
+
+    return code;
 };
 
 

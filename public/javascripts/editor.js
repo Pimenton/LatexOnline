@@ -9,10 +9,19 @@ $(document).ready(function(){
                 tree: tree
             },
             success: function(data){
-                location.href = data.url;
+               window.open(location.href+data.url, 'Download');
             }
         });
     });
+
+    function getImages(child){
+        var ret = [];
+        var images = $(child).children('img');
+        for (var i=0; i<images.length; i++){
+            ret.push($(images[i]).attr('id'));
+        }
+        return ret;
+    }
 
     function generateTree(id, info){
         var childs = $('#'+id).children('.latex_element');
@@ -20,6 +29,7 @@ $(document).ready(function(){
         for (var i=0; i<childs.length; i++){
             var child = $(childs[i]);
             var info = child.data('args');
+            info.images = getImages(child);
             info.childs = generateTree(child.attr('id'));
             ret.push(info);
         }
@@ -115,59 +125,13 @@ $(document).ready(function(){
         bind();
     });
 
-    //FILE UPLOADING
-    var files;
-
-    $('input[type=file]').on('change', prepareUpload);
-    function prepareUpload(event)
-    {
-        files = event.target.files;
-    }
-
-    $('#uploadSubmit').click(uploadFiles);
-
-// Catch the form submit and upload the files
-    function uploadFiles(event) {
-        event.stopPropagation(); // Stop stuff happening
-        event.preventDefault(); // Totally stop stuff happening
-
-        // START A LOADING SPINNER HERE
-
-        // Create a formdata object and add the files
-        var data = new FormData();
-        $.each(files, function (key, value) {
-            data.append(key, value);
-        });
-
-        $.ajax({
-            url: '/upload',
-            type: 'POST',
-            data: data,
-            success: function (data, textStatus, jqXHR) {
-                if (typeof data.error === 'undefined') {
-                    // Success so call function to process the form
-                    //submitForm(event, data);
-                }
-                else {
-                    // Handle errors here
-                    console.log('ERRORS: ' + data.error);
-                }
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                // Handle errors here
-                console.log('ERRORS: ' + textStatus);
-                // STOP LOADING SPINNER
-            }
-        });
-    }
-
     function refresh(){
         $.ajax({
             url: '/images',
             success: function(data){
                 $('#images').html('');
                 for (var i=0; i<data.length; i++){
-                    $('#images').append('<img draggable="true" ondragstart="drag(event)" width="50px" height="50px" id="'+data[i]+'" src="/images/'+data[i]+'" />');
+                    $('#images').append('<img class="img_content" draggable="true" ondragstart="drag(event)" margin="5px" width="50px" height="50px" id="'+data[i]+'" src="/images/'+data[i]+'" />');
                 }
             }
         })
@@ -175,7 +139,6 @@ $(document).ready(function(){
     refresh();
 
     $('#refresh').click(refresh);
-
 });
 
 var pwd;
@@ -265,6 +228,12 @@ function drop(ev) {
             $('#'+data).insertAfter($('#'+ev.target.id));
     }
     else if(data.indexOf('image')>-1){
-        $('#'+data).appendTo($('#'+ev.target.id));
+        $('#'+data).appendTo();
+        $('#'+ev.target.id).append(document.getElementById(data).cloneNode(true));
+
+        $('#document .img_content').unbind();
+        $('#document .img_content').click(function(){
+            $(this).remove();
+        });
     }
 }
