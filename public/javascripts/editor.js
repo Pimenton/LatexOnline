@@ -115,6 +115,67 @@ $(document).ready(function(){
         bind();
     });
 
+    //FILE UPLOADING
+    var files;
+
+    $('input[type=file]').on('change', prepareUpload);
+    function prepareUpload(event)
+    {
+        files = event.target.files;
+    }
+
+    $('#uploadSubmit').click(uploadFiles);
+
+// Catch the form submit and upload the files
+    function uploadFiles(event) {
+        event.stopPropagation(); // Stop stuff happening
+        event.preventDefault(); // Totally stop stuff happening
+
+        // START A LOADING SPINNER HERE
+
+        // Create a formdata object and add the files
+        var data = new FormData();
+        $.each(files, function (key, value) {
+            data.append(key, value);
+        });
+
+        $.ajax({
+            url: '/upload',
+            type: 'POST',
+            data: data,
+            success: function (data, textStatus, jqXHR) {
+                if (typeof data.error === 'undefined') {
+                    // Success so call function to process the form
+                    //submitForm(event, data);
+                }
+                else {
+                    // Handle errors here
+                    console.log('ERRORS: ' + data.error);
+                }
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                // Handle errors here
+                console.log('ERRORS: ' + textStatus);
+                // STOP LOADING SPINNER
+            }
+        });
+    }
+
+    function refresh(){
+        $.ajax({
+            url: '/images',
+            success: function(data){
+                $('#images').html('');
+                for (var i=0; i<data.length; i++){
+                    $('#images').append('<img draggable="true" ondragstart="drag(event)" width="50px" height="50px" id="'+data[i]+'" src="/images/'+data[i]+'" />');
+                }
+            }
+        })
+    }
+    refresh();
+
+    $('#refresh').click(refresh);
+
 });
 
 var pwd;
@@ -182,15 +243,28 @@ function drag(ev) {
 function drop(ev) {
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
-    if (data.indexOf('subsub') > -1)
+
+    if (data.indexOf('_subsub') > -1)
     {
-        if (ev.target.id.indexOf('section') > -1 && ev.target.id.indexOf('subsub') == -1 && ev.target.id.indexOf('sub') > -1)
+        if (ev.target.id.indexOf('_subsub') > -1)
+            $('#'+data).insertAfter($('#'+ev.target.id));
+
+        else if (ev.target.id.indexOf('_sub') > -1 && ev.target.id.indexOf('_subsub') < 0)
             $('#'+data).appendTo($('#'+ev.target.id));
     }
-    else if (data.indexOf('sub')>-1)
+    else if (data.indexOf('_sub')>-1)
     {
-        if (ev.target.id.indexOf('section')>-1 && ev.target.id.indexOf('sub') == -1)
+        if (ev.target.id.indexOf('_sub') > -1 && ev.target.id.indexOf('_subsub') < 0)
+            $('#'+data).insertAfter($('#'+ev.target.id));
+
+        else if (ev.target.id.indexOf('_section') > -1 && ev.target.id.indexOf('_sub') < 0)
             $('#'+data).appendTo($('#'+ev.target.id));
     }
-    else $('#'+data).insertAfter($('#'+ev.target.id));
+    else if (data.indexOf('_section')>-1) {
+        if (ev.target.id.indexOf('_section') > -1)
+            $('#'+data).insertAfter($('#'+ev.target.id));
+    }
+    else if(data.indexOf('image')>-1){
+        $('#'+data).appendTo($('#'+ev.target.id));
+    }
 }

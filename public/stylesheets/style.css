@@ -1,5 +1,6 @@
 body {
   padding: 50px;
+  padding-top: 0px;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
@@ -8,7 +9,7 @@ a {
 }
 
 .latex_element {
-
+  margin: 10px;
 }
 
 .label_well
@@ -31,4 +32,27 @@ a {
 .cont_label_well
 {
 	position: relative;
+}
+
+#control {
+  background-color: white;
+  position: fixed;
+  width:  100%;
+  z-index: 1000;
+  padding-top: 50px;
+  padding-left: 50px;
+  top: 0;
+  left: 0;
+}
+
+#document {
+  margin: 0px;
+}
+
+#container {
+  margin-top: 215px;
+}
+
+#gallery {
+  float:right;
 }

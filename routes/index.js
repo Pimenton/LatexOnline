@@ -32,6 +32,36 @@ router.post('/compile', function(req, res){
   });
 });
 
+var image = 0;
+
+router.post('/upload', function(req, res) {
+    if (!req.files) {
+        res.send('No files were uploaded.');
+        return;
+    }
+    console.log(__dirname)
+    var resource = req.files.resource;
+    var dir = __dirname+'/../public/images';//dirs[resource.name.split('.').reverse()[0]] || 'img';
+    fs.writeFile( dir + '/image'+image++, resource.data);
+    res.render('upload');
+});
+
+router.get('/upload', function(req, res) {
+    res.render('upload.ejs');
+});
+
+router.get('/images', function(req,res){
+  var images = [];
+  fs.readdir(__dirname+'/../public/images', function(err, dir){
+    for (var i=0; i<dir.length; i++) {
+      if (dir[i].indexOf('image') == 0) {
+          images.push(dir[i])
+      }
+    }
+    res.send(images);
+  });
+});
+
 module.exports = router;
 
 function generateCode(tree){

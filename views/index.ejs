@@ -19,11 +19,14 @@
     <script src="/javascripts/editor.js"></script>
   </head>
   <body>
+  <div id="control">
     <h1><%= title %></h1>
     <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddTitle" onclick="currentId = undefined;"><span class="glyphicon glyphicon-bookmark"></span> Add title</button>
     <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddSection" onclick="currentId = undefined;"><span class="glyphicon glyphicon-list"></span> Add section</button>
     <button type="button" class="btn btn-default btn-lg" data-toggle="modal" data-target="#modalAddAbstract" onclick="currentId = undefined;"><span class="glyphicon glyphicon-align-justify"></span> Add abstract</button>
-<!--
+    <hr>
+  </div>
+    <!--
     <p>The code submited will be compiled by the server</p>
     <textarea name="code" id="code">\documentclass{article}
       \begin{document}
@@ -35,11 +38,22 @@
 
 
 -->
-    <br><br>
-    <div id="document" class="latex_element well" data-args="{class: 'article'}">
-      <div id="parteFija"></div>
-      <div id="parteMovil" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+    <div class="row" id="container">
 
+      <div id="document" class="latex_element well col-md-7" data-args="{class: 'article'}">
+        <div id="parteFija"></div>
+        <div id="parteMovil" ondrop="drop(event)" ondragover="allowDrop(event)"></div>
+      </div>
+      <div action='/#' class="col-md-4 well" id="gallery">
+        <div id="view">
+
+          <div id="images"></div>
+          <br>
+          <button type="button" class="btn btn-primary" id="refresh"><span class="glyphicon glyphicon-refresh"></span></button>
+          <hr>
+        </div>
+        <iframe src="/upload"></iframe>
+      </div>
     </div>
     <% include modals/title.ejs %>
     <% include modals/section.ejs %>
